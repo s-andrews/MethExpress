@@ -1,6 +1,7 @@
 package uk.ac.babraham.methexpress.data;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class SampleSet {
@@ -9,6 +10,7 @@ public class SampleSet {
 	// they are consistent between the files.
 	
 	private HashSet<String> sampleNames = new HashSet<String>();
+	private HashMap<String, Integer> indexPositions = new HashMap<String, Integer>();
 	
 	
 	public SampleSet  () {
@@ -23,6 +25,7 @@ public class SampleSet {
 				if (sampleNames.contains(names[i])) {
 					throw new IllegalArgumentException("Duplicate name found in sample set ("+names[i]+")");
 				}
+				indexPositions.put(names[i], sampleNames.size());
 				sampleNames.add(names[i]);
 			}
 		}
@@ -46,6 +49,18 @@ public class SampleSet {
 		return names;
 	}
 	
+	
+	public int size () {
+		return sampleNames.size();
+	}
+	
+	public int getIndexForName (String name) {
+		
+		if (indexPositions.containsKey(name)) {
+			return indexPositions.get(name);
+		}
+		return -1;
+	}
 	
 
 }

@@ -94,4 +94,13 @@ public class Preferences {
 		return maxMatchingDist;
 	}
 	
+	public File file1 () {
+		return file1;
+	}
+
+	public File file2 () {
+		return file2;
+	}
+
+	
 }
