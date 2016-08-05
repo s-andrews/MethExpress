@@ -52,6 +52,9 @@ public class Preferences {
 	
 	public Preferences (String [] args) throws PreferencesParsingException {
 		
+		file1 = new File(args[0]);
+		file2 = new File(args[1]);
+		
 	}
 	
 	

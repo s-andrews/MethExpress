@@ -51,10 +51,9 @@ public class DataSet {
 		
 		String [] sampleNames = new String[header.length-12];
 		for (int i=0;i<sampleNames.length;i++) {
-			sampleNames[i] = header[i+12];
-			
-			samples.checkNames(sampleNames);
+			sampleNames[i] = header[i+12];			
 		}
+		samples.checkNames(sampleNames);
 		
 		String [] sections;
 		String line;
@@ -78,7 +77,7 @@ public class DataSet {
 			DataPoint point = new DataPoint(samples, name, chr, start, end);
 			
 			for (int i=0;i<sampleNames.length;i++) {
-				point.setValueForSample(Double.parseDouble(sections[i+13]), sampleNames[i]);
+				point.setValueForSample(Double.parseDouble(sections[i+12]), sampleNames[i]);
 			}
 			
 			points.add(point);
