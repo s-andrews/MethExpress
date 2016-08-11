@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class DataSet {
 
@@ -13,14 +14,11 @@ public class DataSet {
 	
 	private File file;
 	private DataPoint [] dataPoints;
+	private HashSet<String> chromosomes;
 	
 	public DataSet (File file, SampleSet samples) throws IOException {
-
 		this.file = file;
-		
 		parseFile(file,samples);
-		
-		
 	}
 	
 	
@@ -71,6 +69,7 @@ public class DataSet {
 			
 			String name = sections[0];
 			String chr = sections[1];
+			chromosomes.add(chr);
 			int start = Integer.parseInt(sections[2]);
 			int end = Integer.parseInt(sections[3]);
 			
@@ -89,9 +88,25 @@ public class DataSet {
 		
 	}
 	
+	public String [] chromosomes () {
+		return chromosomes.toArray(new String[0]);
+	}
+	
 	
 	public DataPoint [] dataPoints () {
 		return dataPoints;
+	}
+	
+	public DataPoint [] getDataPointsForChromosome (String chr) {
+		ArrayList<DataPoint> points = new ArrayList<DataPoint>();
+		
+		for (int i=0;i<dataPoints.length;i++) {
+			if (dataPoints[i].chr().equals(chr)) {
+				points.add(dataPoints[i]);
+			}
+		}
+		
+		return points.toArray(new DataPoint[0]);
 	}
 	
 	

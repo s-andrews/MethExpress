@@ -1,6 +1,8 @@
 package uk.ac.babraham.methexpress.analysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import uk.ac.babraham.methexpress.data.DataCollection;
@@ -22,9 +24,6 @@ public class DataPointPairer {
 		else {
 			throw new IllegalArgumentException("Don't know how to pair when it's not by name or position");
 		}
-		
-		
-		
 	}
 	
 	
@@ -85,6 +84,67 @@ public class DataPointPairer {
 	
 
 	private static DataPointPair [] pairOnPosition (DataCollection data, Preferences prefs) {
+		
+		// We'll work our way through the data sets one chromosome at a time since we can never
+		// pair between chromosomes
+		
+		String [] chromosomes = data.dataSet1().chromosomes();
+		
+		for (int c=0;c<chromosomes.length;c++) {
+			
+			// Fetch and filter the data points for dataset1
+			DataPoint [] data1 = data.dataSet1().getDataPointsForChromosome(chromosomes[c]);
+			
+			ArrayList<DataPoint> validPoints = new ArrayList<DataPoint>();
+			
+			for (int i=0;i<data1.length;i++) {
+				if (data1[i].getNaNCount() > prefs.maxNaValuesData1()) continue;
+				if (data1[i].maxValue() < prefs.minValueData1()) continue;
+				if (data1[i].maxDifference() < prefs.minDiffData1()) continue;
+				
+				validPoints.add(data1[i]);
+			}
+			
+			data1 = validPoints.toArray(new DataPoint[0]);
+			validPoints = null;
+			
+			Arrays.sort(data1,new Comparator<DataPoint>() {	
+				public int compare(DataPoint d1, DataPoint d2) {
+					return d1.start() - d2.start();
+				}
+			});
+			
+			// Fetch and filter the data points for dataset2
+			DataPoint [] data2 = data.dataSet2().getDataPointsForChromosome(chromosomes[c]);
+			
+			validPoints = new ArrayList<DataPoint>();
+			
+			for (int i=0;i<data2.length;i++) {
+				if (data2[i].getNaNCount() > prefs.maxNaValuesData2()) continue;
+				if (data2[i].maxValue() < prefs.minValueData2()) continue;
+				if (data2[i].maxDifference() < prefs.minDiffData2()) continue;
+				
+				validPoints.add(data2[i]);
+			}
+			
+			data2 = validPoints.toArray(new DataPoint[0]);
+			validPoints = null;
+			
+			Arrays.sort(data2,new Comparator<DataPoint>() {	
+				public int compare(DataPoint d1, DataPoint d2) {
+					return d1.start() - d2.start();
+				}
+			});
+			
+			// Now we can go through the points in data1 and data2 matching up those
+			// whose distance is close enough according to the matching criteria
+			
+			
+		}
+		
+		
+		
+		
 		return null;
 	}
 
