@@ -51,6 +51,44 @@ public class DataPoint {
 		return values[samples.getIndexForName(name)];
 	}
 	
+	public double maxValue () {
+		double maxValue = Double.NEGATIVE_INFINITY;
+		for (int i=0;i<values.length;i++) {
+			if (Double.isNaN(values[i])) continue;
+			if (values[i]> maxValue) maxValue = values[i];
+		}
+		
+		return maxValue;
+	}
 	
+	public double minValue () {
+		double minValue = Double.POSITIVE_INFINITY;
+		for (int i=0;i<values.length;i++) {
+			if (Double.isNaN(values[i])) continue;
+			if (values[i]< minValue) minValue = values[i];
+		}
+		
+		return minValue;
+	}
+
+	public double maxDifference () {
+		double maxValue = maxValue();
+		if (Double.isInfinite(maxValue)) {
+			return 0;
+		}
+		double minValue = minValue();
+		
+		return (maxValue-minValue);
+
+	}
+	
+	
+	public int getNaNCount () {
+		int count = 0;
+		for (int i=0;i<values.length;i++) {
+			if (Double.isNaN(values[i])) count++;
+		}
+		return count;
+	}
 	
 }
