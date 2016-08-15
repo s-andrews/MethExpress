@@ -3,7 +3,7 @@ package uk.ac.babraham.methexpress.analysis;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 import uk.ac.babraham.methexpress.data.DataPointPair;
-import uk.ac.babraham.methexpress.data.SampleSet;
+import uk.ac.babraham.methexpress.preferences.Preferences;
 
 public class CorrelationCalculator {
 
@@ -13,15 +13,19 @@ public class CorrelationCalculator {
 	 */
 
 
-	public static void correlateDataPointPairs (DataPointPair [] data) {
+	public static void correlateDataPointPairs (DataPointPair [] data, Preferences prefs) {
 
 		if (data.length == 0) return;
 
+		boolean logTransform1 = prefs.logTrasformData1();
+		boolean logTransform2 = prefs.logTrasformData2();
+		
 		String [] sampleNames = data[0].point1().samples().names();
 
 		double [] data1 = new double[sampleNames.length];
 		double [] data2 = new double[sampleNames.length];
 		boolean [] valid = new boolean[sampleNames.length];
+		
 
 		int validCount;
 
@@ -31,7 +35,13 @@ public class CorrelationCalculator {
 
 			for (int j=0;j<sampleNames.length;j++) {
 				data1[j] = data[i].point1().getValueForSample(sampleNames[j]);
+				if (logTransform1) {
+					data1[j] = Math.log(data1[j]);
+				}
 				data2[j] = data[i].point2().getValueForSample(sampleNames[j]);
+				if (logTransform2) {
+					data2[j] = Math.log(data2[j]);
+				}
 
 				if (Double.isNaN(data1[j]) || Double.isInfinite(data1[j]) || Double.isNaN(data2[j]) || Double.isInfinite(data2[j])) {
 					valid[j] = false;
@@ -66,15 +76,16 @@ public class CorrelationCalculator {
 				}
 
 
-				System.err.println("Cor data matrix is "+corData.length+" x "+corData[0].length);
+//				System.err.println("Cor data matrix is "+corData.length+" x "+corData[0].length);
 
 				PearsonsCorrelation pc = new PearsonsCorrelation(corData);
 
 				double rValue = pc.getCorrelationMatrix().getEntry(0, 1);
 				double pValue = pc.getCorrelationPValues().getEntry(0, 1);
 
-				System.err.println("Correction is R="+rValue+" p="+pValue);
-
+//				System.err.println("Correction is R="+rValue+" p="+pValue);
+				
+				data[i].setCorrection(rValue, pValue);
 
 			}
 
@@ -83,14 +94,11 @@ public class CorrelationCalculator {
 
 			}
 
-
-
-
-
 		}
 
+		// Finally we apply multiple testing correciton
+		BenjHochFDR.calculateQValues(data);
 
-		// TODO: Calculate the correlation
 	}
 
 

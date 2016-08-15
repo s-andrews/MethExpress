@@ -59,9 +59,12 @@ public class MethExpressApplication {
 			
 			// Now we can run the correlation analysis across the set of points
 			
-			
 			if (!prefs.quiet()) System.err.println("Found "+dataPairs.length+" pairs");
-			CorrelationCalculator.correlateDataPointPairs(dataPairs);
+			CorrelationCalculator.correlateDataPointPairs(dataPairs,prefs);
+			
+			
+			// Finally we can report on the results
+			
 			
 			
 			
