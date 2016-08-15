@@ -62,7 +62,6 @@ public class Preferences {
 	 * We can opt not to do multiple testing correction
 	 */
 	private boolean skipMultipleTesting = false;
-//	private boolean skipMultipleTesting = true;
 	
 	
 	/**

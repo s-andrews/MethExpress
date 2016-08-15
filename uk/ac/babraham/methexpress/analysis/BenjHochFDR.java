@@ -39,6 +39,9 @@ public class BenjHochFDR {
 	public static void calculateQValues (DataPointPair [] pValues) {
 		Arrays.sort(pValues, new Comparator<DataPointPair>() {
 			public int compare(DataPointPair p1, DataPointPair p2) {
+				if (p1.wasTested() && ! p2.wasTested()) {
+					return -1;  // Tested results always come first
+				}
 				return Double.compare(p1.pValue(), p2.pValue());
 			}
 		});
@@ -52,6 +55,14 @@ public class BenjHochFDR {
 		}
 				
 		for (int i=0;i<pValues.length;i++) {
+			
+//			if (pValues[i].wasTested()) {
+//				System.err.println("Position "+i+" was tested");
+//			}
+//			else {
+//				System.err.println("Position "+i+" was NOT tested");
+//			}
+			
 			pValues[i].setFDR(pValues[i].pValue() * ((double)(validComparisons)/(i+1)));
 			
 			if (i>0 && pValues[i].fdr() < pValues[i-1].fdr()) {
