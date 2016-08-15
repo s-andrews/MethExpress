@@ -14,7 +14,7 @@ public class DataSet {
 	
 	private File file;
 	private DataPoint [] dataPoints;
-	private HashSet<String> chromosomes;
+	private HashSet<String> chromosomes = new HashSet<String>();
 	
 	public DataSet (File file, SampleSet samples) throws IOException {
 		this.file = file;
@@ -92,6 +92,9 @@ public class DataSet {
 		return chromosomes.toArray(new String[0]);
 	}
 	
+	public File file () {
+		return file;
+	}
 	
 	public DataPoint [] dataPoints () {
 		return dataPoints;

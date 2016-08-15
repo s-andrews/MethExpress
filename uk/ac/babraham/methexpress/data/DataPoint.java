@@ -91,4 +91,8 @@ public class DataPoint {
 		return count;
 	}
 	
+	public SampleSet samples () {
+		return samples;
+	}
+	
 }

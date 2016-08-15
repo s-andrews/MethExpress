@@ -85,6 +85,8 @@ public class DataPointPairer {
 
 	private static DataPointPair [] pairOnPosition (DataCollection data, Preferences prefs) {
 		
+		ArrayList<DataPointPair> dataPairs = new ArrayList<DataPointPair>();
+		
 		// We'll work our way through the data sets one chromosome at a time since we can never
 		// pair between chromosomes
 		
@@ -139,13 +141,43 @@ public class DataPointPairer {
 			// Now we can go through the points in data1 and data2 matching up those
 			// whose distance is close enough according to the matching criteria
 			
+			int data2StartIndex = 0;
 			
+			I1: for (int i1=0;i1<data1.length;i1++) {
+				for (int i2=data2StartIndex;i2<data2.length;i2++) {
+					
+					// See if i2 finishes well before i1 starts
+					
+					int endStartDist = data1[i1].start()-data2[i2].end();
+					
+					if (endStartDist > prefs.maxMatchingDist()) {
+						// We don't care about this - it's too far away.
+						
+						// See if we can ignore this permanenetly
+						if (i2 == data2StartIndex+1) {
+							data2StartIndex = i2;
+						}
+						
+						continue;
+					}
+					
+					int startEndDist = data2[i2].start() - data1[i1].end();
+					
+					if (startEndDist > prefs.maxMatchingDist()) {
+						// We've seen all of the matches we can
+						continue I1;
+					}
+				
+					// If we get here then the two points must be close enough to
+					// pair up.
+					
+					dataPairs.add(new DataPointPair(data1[i1], data2[i2]));
+				}
+			}
+				
 		}
 		
-		
-		
-		
-		return null;
+		return dataPairs.toArray(new DataPointPair[0]);
 	}
 
 	

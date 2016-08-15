@@ -42,13 +42,19 @@ public class Preferences {
 	/**
 	 * Matching can be on the basis of names or or distance
 	 */
-	private boolean matchOnNames = true;
+	private boolean matchOnNames = false;
 	
 	/**
 	 * For distance matching we can specify a cutoff for the
 	 * maximum allowed distance
 	 */
-	private int maxMatchingDist = 20000;
+	private int maxMatchingDist = 100000;
+	
+	/**
+	 * We can say whether we want the output to be quiet or not
+	 */
+	private boolean quiet = false;
+	
 	
 	public Preferences (String [] args) throws PreferencesParsingException {
 		
@@ -103,6 +109,10 @@ public class Preferences {
 
 	public File file2 () {
 		return file2;
+	}
+	
+	public boolean quiet () {
+		return quiet;
 	}
 
 	
