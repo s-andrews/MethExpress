@@ -46,11 +46,11 @@ public class BenjHochFDR {
 		// Find the number of comparisons actually made
 		int validComparisons = 0;
 		for (int i=0;i<pValues.length;i++) {
-			if (pValues[i].pValue() != 1 || pValues[i].rValue() != 0) {
+			if (pValues[i].wasTested()) {
 				++validComparisons;
 			}
 		}
-		
+				
 		for (int i=0;i<pValues.length;i++) {
 			pValues[i].setFDR(pValues[i].pValue() * ((double)(validComparisons)/(i+1)));
 			

@@ -85,7 +85,7 @@ public class CorrelationCalculator {
 
 //				System.err.println("Correction is R="+rValue+" p="+pValue);
 				
-				data[i].setCorrection(rValue, pValue);
+				data[i].setCorrelation(rValue, pValue);
 
 			}
 
@@ -96,8 +96,10 @@ public class CorrelationCalculator {
 
 		}
 
-		// Finally we apply multiple testing correciton
-		BenjHochFDR.calculateQValues(data);
+		// Finally we apply multiple testing correction
+		if (!prefs.skipMultipleTesting()) {
+			BenjHochFDR.calculateQValues(data);
+		}
 
 	}
 

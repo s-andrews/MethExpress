@@ -6,6 +6,7 @@ import uk.ac.babraham.methexpress.analysis.CorrelationCalculator;
 import uk.ac.babraham.methexpress.analysis.DataPointPairer;
 import uk.ac.babraham.methexpress.data.DataCollection;
 import uk.ac.babraham.methexpress.data.DataPointPair;
+import uk.ac.babraham.methexpress.output.ReportGenerator;
 import uk.ac.babraham.methexpress.preferences.Preferences;
 import uk.ac.babraham.methexpress.preferences.PreferencesParsingException;
 
@@ -64,10 +65,7 @@ public class MethExpressApplication {
 			
 			
 			// Finally we can report on the results
-			
-			
-			
-			
+			ReportGenerator.writeReport(dataPairs,prefs);
 			
 			
 		}

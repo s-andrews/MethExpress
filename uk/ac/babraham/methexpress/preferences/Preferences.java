@@ -10,6 +10,7 @@ public class Preferences {
 	
 	private File file1;
 	private File file2;
+	private File outFile;
 	
 	
 	/**
@@ -50,6 +51,20 @@ public class Preferences {
 	 */
 	private int maxMatchingDist = 100000;
 	
+	
+	/**
+	 * We can set an FDR cutoff
+	 */
+	private double maxFDR = 0.05d;
+	
+	
+	/**
+	 * We can opt not to do multiple testing correction
+	 */
+	private boolean skipMultipleTesting = false;
+//	private boolean skipMultipleTesting = true;
+	
+	
 	/**
 	 * We can say whether we want the output to be quiet or not
 	 */
@@ -60,6 +75,7 @@ public class Preferences {
 		
 		file1 = new File(args[0]);
 		file2 = new File(args[1]);
+		outFile = new File(args[2]);
 		
 	}
 	
@@ -103,12 +119,24 @@ public class Preferences {
 		return maxMatchingDist;
 	}
 	
+	public double maxFDR () {
+		return maxFDR;
+	}
+	
+	public boolean skipMultipleTesting () {
+		return skipMultipleTesting;
+	}
+	
 	public File file1 () {
 		return file1;
 	}
 
 	public File file2 () {
 		return file2;
+	}
+	
+	public File outFile () {
+		return outFile;
 	}
 	
 	public boolean quiet () {

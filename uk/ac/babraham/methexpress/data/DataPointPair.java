@@ -14,6 +14,8 @@ public class DataPointPair {
 	private double pValue = 1;
 	private double fdr = 1;
 	
+	private boolean wasTested = false;
+	
 	
 	public DataPointPair (DataPoint point1, DataPoint point2) {
 		this.point1 = point1;
@@ -28,9 +30,14 @@ public class DataPointPair {
 		return point2;
 	}
 	
-	public void setCorrection (double rValue, double pValue) {
+	public void setCorrelation (double rValue, double pValue) {
+		wasTested = true;
 		this.rValue = rValue;
 		this.pValue = pValue;
+		
+		// We assign the pValue to the FDR value in case they've opted not
+		// to do multiple testing correction - although that would be BAD :-(
+		this.fdr = pValue;
 	}
 	
 	public double rValue () {
@@ -47,6 +54,10 @@ public class DataPointPair {
 	
 	public double fdr () {
 		return fdr;
+	}
+	
+	public boolean wasTested () {
+		return wasTested;
 	}
 	
 	
