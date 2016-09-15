@@ -42,9 +42,9 @@ public class DataPointPairer {
 		for (int i=0;i<dataPoints.length;i++) {
 			
 			// Check that this point matches the values we need
-			if (dataPoints[i].getNaNCount() > prefs.maxNaValuesData1()) continue;
 			if (dataPoints[i].maxValue() < prefs.minValueData1()) continue;
 			if (dataPoints[i].maxDifference() < prefs.minDiffData1()) continue;
+			if (dataPoints[i].getValidCount() < prefs.minValidValues()) continue;
 			
 			if (dataPoints1Map.containsKey(dataPoints[i].name())) {
 				DataPoint [] localPoints = dataPoints1Map.get(dataPoints[i].name());
@@ -67,9 +67,9 @@ public class DataPointPairer {
 			
 			if (!dataPoints1Map.containsKey(dataPoints[i].name())) continue;
 
-			if (dataPoints[i].getNaNCount() > prefs.maxNaValuesData2()) continue;
 			if (dataPoints[i].maxValue() < prefs.minValueData2()) continue;
 			if (dataPoints[i].maxDifference() < prefs.minDiffData2()) continue;
+			if (dataPoints[i].getValidCount() < prefs.minValidValues()) continue;
 			
 			DataPoint [] data1Points = dataPoints1Map.get(dataPoints[i].name());
 			
@@ -100,7 +100,6 @@ public class DataPointPairer {
 			ArrayList<DataPoint> validPoints = new ArrayList<DataPoint>();
 			
 			for (int i=0;i<data1.length;i++) {
-				if (data1[i].getNaNCount() > prefs.maxNaValuesData1()) continue;
 				if (data1[i].maxValue() < prefs.minValueData1()) continue;
 				if (data1[i].maxDifference() < prefs.minDiffData1()) continue;
 				
@@ -122,7 +121,6 @@ public class DataPointPairer {
 			validPoints = new ArrayList<DataPoint>();
 			
 			for (int i=0;i<data2.length;i++) {
-				if (data2[i].getNaNCount() > prefs.maxNaValuesData2()) continue;
 				if (data2[i].maxValue() < prefs.minValueData2()) continue;
 				if (data2[i].maxDifference() < prefs.minDiffData2()) continue;
 				
@@ -153,7 +151,7 @@ public class DataPointPairer {
 					if (endStartDist > prefs.maxMatchingDist()) {
 						// We don't care about this - it's too far away.
 						
-						// See if we can ignore this permanenetly
+						// See if we can ignore this permanently
 						if (i2 == data2StartIndex+1) {
 							data2StartIndex = i2;
 						}

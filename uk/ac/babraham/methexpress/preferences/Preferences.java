@@ -14,10 +14,9 @@ public class Preferences {
 	
 	
 	/**
-	 * How many NA values can there be in a dataset to still consider it as valid
+	 * How many valid values do we need for each comparison we're making
 	 */
-	private int maxNAValuesData1 = 1;
-	private int maxNAValuesData2 = 1;
+	private int minValidValues = 3;
 	
 	/**
 	 * We can set a min absolute value for datasets 1 and 2
@@ -55,7 +54,7 @@ public class Preferences {
 	/**
 	 * We can set an FDR cutoff
 	 */
-	private double maxFDR = 0.05d;
+	private double maxFDR = 0.1d;
 	
 	
 	/**
@@ -72,18 +71,150 @@ public class Preferences {
 	
 	public Preferences (String [] args) throws PreferencesParsingException {
 		
-		file1 = new File(args[0]);
-		file2 = new File(args[1]);
-		outFile = new File(args[2]);
+		String [] remainingArgs = parsePreference(args);
+		
+		if (remainingArgs.length < 3) {
+			throw new PreferencesParsingException("Not enough file names supplied - we need 2 data files and an output file");
+		}
+		
+		if (remainingArgs.length > 3) {
+			throw new PreferencesParsingException("Too many file names supplied - we only need 2 data files and an output file");
+		}
+		
+		
+		file1 = new File(remainingArgs[0]);
+		file2 = new File(remainingArgs[1]);
+		outFile = new File(remainingArgs[2]);
+		
+		if (! file1.exists() && file1.canRead()) {
+			throw new PreferencesParsingException("Couldn't find a data file at "+file1.getAbsolutePath()+" which I could read");
+		}
+		
+		if (! file2.exists() && file2.canRead()) {
+			throw new PreferencesParsingException("Couldn't find a data file at "+file2.getAbsolutePath()+" which I could read");
+		}
+
 		
 	}
 	
 	
-	public int maxNaValuesData1 () {
-		return maxNAValuesData1;
+	private String [] parsePreference (String [] prefs) throws PreferencesParsingException {
+		
+		int lastIndex;
+		
+		for (lastIndex=0;lastIndex<prefs.length;lastIndex++) {
+			
+			if (prefs[lastIndex] == "--minValid") {
+				++lastIndex;
+				int minValidValue = Integer.parseInt(prefs[lastIndex]);
+				
+				if (minValidValue < 3) {
+					throw new PreferencesParsingException("Min valid values can't be less than 3");
+				}
+				
+				minValidValues = minValidValue;
+			}
+
+			
+			else if (prefs[lastIndex] == "--minValue1") {
+				++lastIndex;
+				double minValue1 = Double.parseDouble(prefs[lastIndex]);
+								
+				minValueData1 = minValue1;
+			}
+
+			else if (prefs[lastIndex] == "--minValue2") {
+				++lastIndex;
+				double minValue2 = Double.parseDouble(prefs[lastIndex]);
+								
+				minValueData2 = minValue2;
+			}
+
+			else if (prefs[lastIndex] == "--minDiff1") {
+				++lastIndex;
+				double minDiff1 = Math.abs(Double.parseDouble(prefs[lastIndex]));
+
+				minDiffData1 = minDiff1;
+			}
+			
+			else if (prefs[lastIndex] == "--minDiff2") {
+				++lastIndex;
+				double minDiff2 = Math.abs(Double.parseDouble(prefs[lastIndex]));
+
+				minDiffData2 = minDiff2;
+			}
+
+			else if (prefs[lastIndex] == "--logData1") {
+				logTransformData1 = true;
+			}
+			
+			else if (prefs[lastIndex] == "--logData2") {
+				logTransformData2 = true;
+			}
+
+			else if (prefs[lastIndex] == "--matchNames") {
+				matchOnNames = true;
+			}
+
+			else if (prefs[lastIndex] == "--matchPositions") {
+				matchOnNames = false;
+			}
+			
+			else if (prefs[lastIndex] == "--matchDist") {
+				++lastIndex;
+				int matchDist = Math.abs(Integer.parseInt(prefs[lastIndex]));
+								
+				maxMatchingDist = matchDist;
+			}
+
+			else if (prefs[lastIndex] == "--pValueFilter") {
+				++lastIndex;
+				double p = Double.parseDouble(prefs[lastIndex]);
+				
+				if (p < 0 || p > 1) {
+					throw new PreferencesParsingException("P value filter must be between 0 and 1");
+				}
+				
+								
+				maxFDR = p;
+			}
+			
+			else if (prefs[lastIndex] == "--skipMTC") {
+				skipMultipleTesting = true;
+			}
+
+			else if (prefs[lastIndex] == "--quiet") {
+				quiet = true;
+			}
+
+			else if (prefs[lastIndex].startsWith("-")) {
+				// We assume they tried to specify an option which we don't understand.  Who
+				// starts a file name with a minus?
+				
+				throw new PreferencesParsingException("Didn't understand option "+prefs[lastIndex]);
+			}
+			
+			else {
+				break;
+			}
+			
+		}
+		
+		// Now we construct a string array from whatever we have left.
+		
+		String [] returnValues = new String[prefs.length-(lastIndex+1)];
+		
+		for (int i=lastIndex;i<prefs.length;i++) {
+			returnValues[i-lastIndex] = prefs[i];
+		}
+		
+		return returnValues;
+		
 	}
-	public int maxNaValuesData2 () {
-		return maxNAValuesData2;
+	
+	
+	public int minValidValues () {
+		return minValidValues;
 	}
 	
 	public double minValueData1 () {

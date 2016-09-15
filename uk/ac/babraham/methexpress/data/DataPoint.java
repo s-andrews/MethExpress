@@ -83,10 +83,10 @@ public class DataPoint {
 	}
 	
 	
-	public int getNaNCount () {
+	public int getValidCount () {
 		int count = 0;
 		for (int i=0;i<values.length;i++) {
-			if (Double.isNaN(values[i])) count++;
+			if (!Double.isNaN(values[i])) count++;
 		}
 		return count;
 	}

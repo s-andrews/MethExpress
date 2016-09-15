@@ -61,7 +61,7 @@ public class CorrelationCalculator {
 			}
 
 
-			if (validCount >= 3) {
+			if (validCount >= prefs.minValidValues()) {
 				// We can do the correlation
 
 				double [][] corData;
