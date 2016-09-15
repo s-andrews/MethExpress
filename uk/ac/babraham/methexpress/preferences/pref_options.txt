@@ -1,0 +1,38 @@
+Meth Express
+============
+
+Usage java -jar methexpress.jar [..options] [methylation file] [expression file] [output file]
+
+
+Options
+-------
+
+ --minValid			What is the smallest number of valid paired values which must be present in order
+					to calculate a correlation value. [Default 3]
+				
+ --minValue1		What is the minimum absolute value which must be present in data files 1 or 2 in
+ --minValue2		order for that line to be used for correlation [Default no filter]
+ 
+ --minDiff1			What is the smallest absolute difference between the largest and smallest values
+ --minDiff2			on a line in data file 1 or 2 to allow this line to be used for correlation [Default 0]
+ 
+ --logData1			Should the values in datafile 1 or 2 be log transformed before use.  If this option 
+ --logData2			is selected then zero values will be set to 0.01 before transformation.
+ 
+ --matchNames		Lines in the 2 data files should be paired on the basis of the probe names in the files
+ 
+ --matchPositions	Lines in the 2 data files should be paired on the basis of the positions of the
+ 					probes [Default]
+ 					
+ --matchDist		What is the maximum distance between probes which still allows them to be validly
+ 					paired [Default 100,000]
+ 					
+ --pValueFilter		What is the maximum pValue to be reported.  If multiple testing correction is applied
+ 					this filter will be applied to the false discovery rate, otherwise it will apply to
+ 					the raw p-value [Default 0.05]
+ 
+ --skipMTC			Do not do multiple testing correction [Default off]
+ 
+ --quiet			Suppress progress messages [Default off]
+ 
+ --help				Display the help and exit.
