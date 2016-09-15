@@ -70,8 +70,11 @@ public class CorrelationCalculator {
 
 				int index = 0;
 
-				for (int j=0;j<validCount;j++) {
+				for (int j=0;j<valid.length;j++) {
 					if (valid[j]) {
+						
+//						System.err.println("Found valid pair "+data1[j]+" and "+data2[j]);
+						
 						corData[index][0] = data1[j];
 						corData[index][1] = data2[j];
 						++index;

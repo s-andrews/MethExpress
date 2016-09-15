@@ -104,7 +104,7 @@ public class Preferences {
 		
 		for (lastIndex=0;lastIndex<prefs.length;lastIndex++) {
 			
-			if (prefs[lastIndex] == "--minValid") {
+			if (prefs[lastIndex].equals("--minValid")) {
 				++lastIndex;
 				int minValidValue = Integer.parseInt(prefs[lastIndex]);
 				
@@ -116,58 +116,58 @@ public class Preferences {
 			}
 
 			
-			else if (prefs[lastIndex] == "--minValue1") {
+			else if (prefs[lastIndex].equals("--minValue1")) {
 				++lastIndex;
 				double minValue1 = Double.parseDouble(prefs[lastIndex]);
 								
 				minValueData1 = minValue1;
 			}
 
-			else if (prefs[lastIndex] == "--minValue2") {
+			else if (prefs[lastIndex].equals("--minValue2")) {
 				++lastIndex;
 				double minValue2 = Double.parseDouble(prefs[lastIndex]);
 								
 				minValueData2 = minValue2;
 			}
 
-			else if (prefs[lastIndex] == "--minDiff1") {
+			else if (prefs[lastIndex].equals("--minDiff1")) {
 				++lastIndex;
 				double minDiff1 = Math.abs(Double.parseDouble(prefs[lastIndex]));
 
 				minDiffData1 = minDiff1;
 			}
 			
-			else if (prefs[lastIndex] == "--minDiff2") {
+			else if (prefs[lastIndex].equals("--minDiff2")) {
 				++lastIndex;
 				double minDiff2 = Math.abs(Double.parseDouble(prefs[lastIndex]));
 
 				minDiffData2 = minDiff2;
 			}
 
-			else if (prefs[lastIndex] == "--logData1") {
+			else if (prefs[lastIndex].equals("--logData1")) {
 				logTransformData1 = true;
 			}
 			
-			else if (prefs[lastIndex] == "--logData2") {
+			else if (prefs[lastIndex].equals("--logData2")) {
 				logTransformData2 = true;
 			}
 
-			else if (prefs[lastIndex] == "--matchNames") {
+			else if (prefs[lastIndex].equals("--matchNames")) {
 				matchOnNames = true;
 			}
 
-			else if (prefs[lastIndex] == "--matchPositions") {
+			else if (prefs[lastIndex].equals("--matchPositions")) {
 				matchOnNames = false;
 			}
 			
-			else if (prefs[lastIndex] == "--matchDist") {
+			else if (prefs[lastIndex].equals("--matchDist")) {
 				++lastIndex;
 				int matchDist = Math.abs(Integer.parseInt(prefs[lastIndex]));
 								
 				maxMatchingDist = matchDist;
 			}
 
-			else if (prefs[lastIndex] == "--pValueFilter") {
+			else if (prefs[lastIndex].equals("--pValueFilter")) {
 				++lastIndex;
 				double p = Double.parseDouble(prefs[lastIndex]);
 				
@@ -179,11 +179,11 @@ public class Preferences {
 				maxFDR = p;
 			}
 			
-			else if (prefs[lastIndex] == "--skipMTC") {
+			else if (prefs[lastIndex].equals("--skipMTC")) {
 				skipMultipleTesting = true;
 			}
 
-			else if (prefs[lastIndex] == "--quiet") {
+			else if (prefs[lastIndex].equals("--quiet")) {
 				quiet = true;
 			}
 
