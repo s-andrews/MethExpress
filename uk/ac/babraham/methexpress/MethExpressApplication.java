@@ -1,6 +1,8 @@
 package uk.ac.babraham.methexpress;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import uk.ac.babraham.methexpress.analysis.CorrelationCalculator;
 import uk.ac.babraham.methexpress.analysis.DataPointPairer;
@@ -24,6 +26,26 @@ public class MethExpressApplication {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
+		if (prefs.help()) {
+			try {
+				BufferedReader br = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("uk/ac/babraham/methexpress/preferences/pref_options.txt")));
+			
+				String line;
+				while ((line = br.readLine()) != null) {
+					System.out.println(line);
+				}
+				
+				br.close();
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+				System.exit(1);
+			}
+			
+			System.exit(0);
+		}
+		
 		
 		try {
 			

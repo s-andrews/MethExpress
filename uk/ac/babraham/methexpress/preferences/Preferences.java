@@ -68,11 +68,22 @@ public class Preferences {
 	 */
 	private boolean quiet = false;
 	
+	/**
+	 * Do they just want to see the help?
+	 */
+	private boolean help = false;
+	
 	
 	public Preferences (String [] args) throws PreferencesParsingException {
 		
-		String [] remainingArgs = parsePreference(args);
+		if (args.length == 0) {
+			help = true;
+			return;
+		}
 		
+		
+		String [] remainingArgs = parsePreference(args);
+				
 		if (remainingArgs.length < 3) {
 			throw new PreferencesParsingException("Not enough file names supplied - we need 2 data files and an output file");
 		}
@@ -186,6 +197,11 @@ public class Preferences {
 			else if (prefs[lastIndex].equals("--quiet")) {
 				quiet = true;
 			}
+			
+			else if (prefs[lastIndex].equals("--help")) {
+				help = true;
+			}
+
 
 			else if (prefs[lastIndex].startsWith("-")) {
 				// We assume they tried to specify an option which we don't understand.  Who
@@ -271,6 +287,10 @@ public class Preferences {
 	
 	public boolean quiet () {
 		return quiet;
+	}
+	
+	public boolean help () {
+		return help;
 	}
 
 	
