@@ -202,7 +202,7 @@ public class Preferences {
 		
 		// Now we construct a string array from whatever we have left.
 		
-		String [] returnValues = new String[prefs.length-(lastIndex+1)];
+		String [] returnValues = new String[prefs.length-lastIndex];
 		
 		for (int i=lastIndex;i<prefs.length;i++) {
 			returnValues[i-lastIndex] = prefs[i];
